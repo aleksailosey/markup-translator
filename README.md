@@ -68,12 +68,12 @@ const translator = new MarkupTranslator('GOOGLE_CLOUD_API_KEY', options);
 ```
 The options argument has two fields: `includeAttributes` and `excludeDelimiters`. You may wish include one, the other, or both.
 
-### includeAttributes
+#### `includeAttributes`
 The `includeAttributes` field is a list of all attribute names you wish to have translated in your markup. All content between either single or double quotes of the attribute declaration will be translated in the specified target language.
 
 For the best results, only include attributes with simple text values rather than ones with inlined styles or scripts.
 
-### excludeDelimiters
+#### `excludeDelimiters`
 The `excludeDelimiters` field prevents translation of content between all specified delimiters. A delimiter object must include exactly two fields named `start` and `end` specifying the start and end delimiter, respectively.
 
 Start and end delimiters may not include the following characters: ', ", \`
@@ -115,7 +115,7 @@ Then the `<div></div>` element above would be correctly translated as follows (r
 ```
 
 ## Advanced usage
-Below are the two ways in which to translate markup given an instance of the MarkupTranslator class named `translator`:
+Below are the two ways in which to translate markup given an instance of the `MarkupTranslator` class named `translator`:
 
 #### `translator.translateFromText(text, targetLanguage)`
 a
@@ -124,7 +124,9 @@ a
 b
 
 ### Supported target languages
-c
+The language of the provided markup is inferred. The `targetLanguage` argument must be a supported [ISO_639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code. A list of supported [ISO_639-1](https://en.wikipedia.org/wiki/ISO_639-1) codes for Google's Translate API can be found [here](https://cloud.google.com/translate/docs/languages).
+
+Alternatively, you may print  
 
 ## Contributing
 Pull requests are welcome!
