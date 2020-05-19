@@ -37,8 +37,8 @@ Suppose we use Google's Translate API on the HTML code below:
 ```
 None of the three attributes above will be translated into the provided target language. While this is desirable behavior for the `type` attribute, it is not so for both the `placeholder` and `title` attributes.
 
-### Example of undesired behavior concerning template engines
-Suppose we use the Handlebars template engine in the code below:
+### Example of undesired behavior when using a template engine
+Suppose we use the [Handlebars](https://handlebarsjs.com/) template engine in the code below:
 ```handlebars
 <body>
   {{> partial}}
@@ -67,12 +67,14 @@ const translator = new MarkupTranslator('GOOGLE_CLOUD_API_KEY', options);
 The options argument has two fields: `includeAttributes` and `excludeDelimiters`. You may wish include one, the other, or both.
 
 ### includeAttributes
-The 
+The `includeAttributes` field is a list of all attribute names you wish to have translated in your markup. All content between either single or double quotes of the attribute declaration will be translated in the specified target language. For the best results, only include attributes with simple text values rather than ones with inlined styles or scripts.
 
 ### excludeDelimiters
 
-## Advanced usage
+### A note on precedence
 
+
+## Advanced usage
 
 ## Contributing
 Pull requests are welcome!
