@@ -115,6 +115,37 @@ Then the `<div></div>` element above would be correctly translated as follows (r
 ```
 
 ## Advanced usage
+
+### Initialization
+
+The `MarkupTranslator` class constructor accepts two arguments: a Google Cloud API key and an `options` object.
+
+The first argument, the API key, is required. The `options` object, on the other hand, is not required and may be omitted.
+
+If possible, try not to hard code the Google Cloud API key into your program. Rather, try using environment variables to store API keys. Consult [dotenv](https://www.npmjs.com/package/dotenv) to learn more.
+
+Below is an example initialization using the environment variable `GOOGLE_CLOUD_API_KEY` and passing in an arbitrary `options` argument.
+
+```javascript
+const MarkupTranslator = require('markup-translator');
+
+const translator = new MarkupTranslator(process.env.GOOGLE_CLOUD_API_KEY, {
+  includeAttributes: ['placeholder', 'title', 'alt'],
+  excludeDelimiters: [
+    {
+      start: '{{',
+      end: '}}'
+    },
+    {
+      start: '<<',
+      end: '>>'
+    }
+  ]
+});
+```
+
+### Instance methods
+
 Below are the two ways in which to translate markup given an instance of the `MarkupTranslator` class named `translator`:
 
 #### `await translator.translateFromText(text, targetLanguage)`
@@ -125,7 +156,7 @@ Below are the two ways in which to translate markup given an instance of the `Ma
 
 If `inputFilePath` cannot be resolved, a fatal error will be thrown.
 
-If `outputFilePath` does not exist at runtime, then it will be created. Make sure, however, that `outputFilePath`'s enclosing directories exists. Otherwise, a fatal error will be thrown.
+If `outputFilePath` does not exist at runtime, then it will be created. Make sure, however, that `outputFilePath`'s enclosing directories exist. Otherwise, a fatal error will be thrown.
 
 ### Supported target languages
 The language of the provided markup is inferred. The `targetLanguage` argument must be a supported [ISO_639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code. A list of supported ISO_639-1 codes for Google's Translate API can be found [here](https://cloud.google.com/translate/docs/languages).
