@@ -116,10 +116,10 @@ Then the `<div></div>` element above would be correctly translated as follows (r
 
 ## Advanced usage
 
-### MarkupTranslator.translateFromText(text, targetLanguage)
+##### `MarkupTranslator.translateFromText(text, targetLanguage)`
 a
 
-### MarkupTranslator.translateFromFile(inputFilePath, outputFilePath, targetLanguage)
+##### `MarkupTranslator.translateFromFile(inputFilePath, outputFilePath, targetLanguage)`
 b
 
 ### Supported target languages
