@@ -17,7 +17,7 @@ const MarkupTranslator = require('markup-translator');
 
 async function test () {
   var translator = new MarkupTranslator('GOOGLE_CLOUD_API_KEY');
-  var translatedMarkup = await translator.translateFromText('<span>Hello world!</span>');
+  var translatedMarkup = await translator.translateFromText('<span>Hello world!</span>', 'es');
   console.log(translatedMarkup);
 }
 
