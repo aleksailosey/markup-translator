@@ -117,16 +117,24 @@ Then the `<div></div>` element above would be correctly translated as follows (r
 ## Advanced usage
 Below are the two ways in which to translate markup given an instance of the `MarkupTranslator` class named `translator`:
 
-#### `translator.translateFromText(text, targetLanguage)`
-a
+#### `await translator.translateFromText(text, targetLanguage)`
+`translateFromText` accepts a string of markup and a target language code. It returns the translated markup.
 
-#### `translator.translateFromFile(inputFilePath, outputFilePath, targetLanguage)`
-b
+#### `await translator.translateFromFile(inputFilePath, outputFilePath, targetLanguage)`
+`translateFromFile` accepts an input file path, an output file path, and a target language code. This method accepts markup from `inputFilePath` and ouputs the translated markup to `outputFilePath`.
+
+If `inputFilePath` cannot be resolved, a fatal error will be thrown.
+
+If `outputFilePath` does not exist at runtime, then it will be created. Make sure, however, that `outputFilePath`'s enclosing directories exists. Otherwise, a fatal error will be thrown.
 
 ### Supported target languages
-The language of the provided markup is inferred. The `targetLanguage` argument must be a supported [ISO_639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code. A list of supported [ISO_639-1](https://en.wikipedia.org/wiki/ISO_639-1) codes for Google's Translate API can be found [here](https://cloud.google.com/translate/docs/languages).
+The language of the provided markup is inferred. The `targetLanguage` argument must be a supported [ISO_639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code. A list of supported ISO_639-1 codes for Google's Translate API can be found [here](https://cloud.google.com/translate/docs/languages).
 
-Alternatively, you may print  
+Alternatively, you may print out supported language codes with the following statement:
+
+```javascript
+translator.printSupportedLanguageCodes();
+```
 
 ## Contributing
 Pull requests are welcome!
