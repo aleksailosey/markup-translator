@@ -84,7 +84,11 @@ If you find yourself needing to prevent translation of a certain word or group o
 ```
 
 ### A note on precedence
+Excluded delimiters have precedence over included attributes. This makes it possible to include custom values in translated attributes. For example, consider the following `<div></div>` element:
 
+```html
+<div data-message='Hello, {{name}}'></div>
+```
 
 ## Advanced usage
 
