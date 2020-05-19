@@ -27,6 +27,11 @@ test();
 
 ```
 
+## Options
+As a default, Google's Translate API only translates text between two tags. This behavior can be especially frustrating if you wish to translate certain element attributes (such as the placeholder or title attributes) or if you are using a template engine like [Handlebars](https://handlebarsjs.com/).
+
+To
+
 ## Contributing
 Pull requests are welcome!
 
