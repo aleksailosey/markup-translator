@@ -67,9 +67,21 @@ const translator = new MarkupTranslator('GOOGLE_CLOUD_API_KEY', options);
 The options argument has two fields: `includeAttributes` and `excludeDelimiters`. You may wish include one, the other, or both.
 
 ### includeAttributes
-The `includeAttributes` field is a list of all attribute names you wish to have translated in your markup. All content between either single or double quotes of the attribute declaration will be translated in the specified target language. For the best results, only include attributes with simple text values rather than ones with inlined styles or scripts.
+The `includeAttributes` field is a list of all attribute names you wish to have translated in your markup. All content between either single or double quotes of the attribute declaration will be translated in the specified target language.
+
+For the best results, only include attributes with simple text values rather than ones with inlined styles or scripts.
 
 ### excludeDelimiters
+The `excludeDelimiters` field prevents translation of content between all specified delimiters. A delimiter object must include exactly two fields named `start` and `end` specifying the start and end delimiter, respectively. 
+
+Start and end delimiters may not include the following characters: ', ", \`
+
+If you find yourself needing to prevent translation of a certain word or group of text, remember that the default behavior of Google's Translate API allows you to avoid translation with the following methods:
+
+```html
+<span translate='no'>This will not translate</span>
+<div class='notranslate'>Neither will this</div>
+```
 
 ### A note on precedence
 
