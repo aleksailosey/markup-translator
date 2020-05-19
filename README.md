@@ -168,7 +168,7 @@ The language of the provided markup is inferred. The `targetLanguage` argument m
 Alternatively, you may print out supported languages and their corresponding ISO_639-1 codes with the following statement:
 
 ```javascript
-translator.printSupportedLanguageCodes();
+translator.printSupportedLanguages();
 ```
 
 ## Contributing
