@@ -165,7 +165,7 @@ If `outputFilePath` does not exist at runtime, then it will be created. Make sur
 ### Supported target languages
 The language of the provided markup is inferred. The `targetLanguage` argument must be a supported [ISO_639-1](https://en.wikipedia.org/wiki/ISO_639-1) language code. A list of supported ISO_639-1 codes for Google's Translate API can be found [here](https://cloud.google.com/translate/docs/languages).
 
-Alternatively, you may print out supported language codes with the following statement:
+Alternatively, you may print out supported languages and their corresponding ISO_639-1 codes with the following statement:
 
 ```javascript
 translator.printSupportedLanguageCodes();
