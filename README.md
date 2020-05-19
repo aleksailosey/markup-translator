@@ -45,6 +45,7 @@ Suppose we use the Handlebars template engine in the code below:
   <h3>Hello, {{name}}</h3>
 </body>
 ```
+If we were to translate this markup into Spanish, for example, `{{> partial}}` and `{{name}}` would become `{{> parcial}}` and `{{nombre}}`, respectively. This is an issue.
 
 
 To combat these deficiencies, the `MarkupTranslator` class constructor has an optional `options` argument.
