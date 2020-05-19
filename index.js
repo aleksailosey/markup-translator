@@ -1,3 +1,12 @@
+/*
+  Author: Aleksai Losey
+  Version: 5/19/2020
+  Email: aleksailosey@gmail.com
+  License: MIT
+  Disclaimer: My first npm package
+*/
+
+
 const { Translate } = require('@google-cloud/translate').v2,
       Html5Entities = require('html-entities').Html5Entities,
       entities      = new Html5Entities();
@@ -10,6 +19,8 @@ class MarkupTranslator {
   #INCLUDE_ATTRIBUTES;
   #PLACEHOLDER_BASE  = 'MARKUPTRANSLATORPLACEHOLDER';
   #PLACEHOLDER_INDEX = 0;
+
+  #INVALID_DELIMITERS = [`'`, '"', "'"];
 
   /*
     @param API_KEY: string
@@ -35,15 +46,38 @@ class MarkupTranslator {
     this.#INCLUDE_ATTRIBUTES  = options && options.includeAttributes && Array.isArray(options.includeAttributes) ? options.includeAttributes : [];
 
     for (var delimiter of this.#EXCLUDE_DELIMITERS) {
+
       if (typeof delimiter !== 'object' || !delimiter.start || !delimiter.end || typeof delimiter.start !== 'string' || typeof delimiter.end !== 'string') {
+
         throw new Error(`Invalid delimiter (${JSON.stringify(delimiter)}) provided in the excludeDelimiters field. Delimiter objects must have the form { start: string, end: string }.`);
+
       }
+
+    }
+
+    // now check for validity of delimiters
+    for (var delimiter of this.#EXCLUDE_DELIMITERS) {
+
+      for (var invalidDelimiter of this.#INVALID_DELIMITERS) {
+
+        if (delimiter.start.indexOf(invalidDelimiter) !== -1 || delimiter.end.indexOf(invalidDelimiter) !== -1) {
+
+          throw new Error(`Invalid character (${invalidDelimiter}) is present in delimiter. Delimiters may not contain the following characters: ', ", or \`.`);
+
+        }
+
+      }
+
     }
 
     for (var attribute of this.#INCLUDE_ATTRIBUTES) {
+
       if (typeof attribute !== 'string') {
-        throw new Error(`Invalid attribute (${attribute}) provided in the includeAttributes field. Attributes must be non-empty strings.`)
+
+        throw new Error(`Invalid attribute (${attribute}) provided in the includeAttributes field. Attributes must be non-empty strings.`);
+
       }
+
     }
 
   }
@@ -53,7 +87,7 @@ class MarkupTranslator {
     @param outputFilePath: string
     @param targetLanguage: string
   */
-  async translateFile (inputFilePath, outputFilePath, targetLanguage) {
+  async translateFromFile (inputFilePath, outputFilePath, targetLanguage) {
 
   }
 
@@ -61,54 +95,65 @@ class MarkupTranslator {
     @param text: string
     @param targetLanguage: string
   */
-  async translateText (text, targetLanguage) {
+  async translateFromText (text, targetLanguage) {
 
     if (typeof text === 'undefined') {
+
       throw new Error('Please provide text to translate.')
+
     }
 
     if (typeof text !== 'string') {
+
       throw new Error(`The text value provided (${text}) must be a string`);
+
     }
 
     if (typeof targetLanguage === 'undefined') {
+
       throw new Error('Please provide a target language.');
+
     }
 
     try {
+
       return await this.#translate(text, targetLanguage);
+
     } catch (error) {
+
       if (error.code === 403) {
+
         throw new Error(`The provided Google Cloud API key (${this.#API_KEY}) is invalid.`);
+
       } else if (error.message) {
+
         throw new Error(error.message);
+
       } else {
+
         throw new Error('An unexpected error has occurred');
+
       }
+
     }
 
   }
 
 
   /*
+    Translates markup while considering excluded delimiters and included attributes
 
+    @param text: string
+    @param targetLanguage: string
   */
   #translate = async function (text, targetLanguage) {
-    // const { items, garbled }  = this.#garble(text),
-    //       [translatedEncoded] = await this.#TRANSLATOR.translate(garbled, { to: targetLanguage, format: 'html' }),
-    //       translatedDecoded   = this.#decode(translatedEncoded),
-    //       translated          = this.#ungarble(translatedDecoded, items);
-    // return translated;
-
     const { restoreMap, garbled } = this.#garble(text),
           translatedAttributes    = await this.#translateAttributes(garbled, targetLanguage),
-          [translatedEncoded]     = await this.#TRANSLATOR.translate(translatedAttributes, { to: targetLanguage, format: 'html' });
+          [translatedEncoded]     = await this.#TRANSLATOR.translate(translatedAttributes, { to: targetLanguage, format: 'html' }),
+          translatedDecoded       = this.#decode(translatedEncoded),
+          translated              = this.#ungarble(translatedDecoded, restoreMap);
 
-    console.log(translatedEncoded)
-
-
-
-
+    return translated;
 
   }
 
@@ -186,23 +231,28 @@ class MarkupTranslator {
     @param text: string
     @param items: array
   */
-  // #ungarble = function (text, items) {
-  //   var n         = -1,
-  //       ungarbled = text.replace(new RegExp(this.#PLACEHOLDER, 'g'), function (_) {
-  //         n++;
-  //         return items[n];
-  //       });
-  //   return ungarbled;
-  // }
+  #ungarble = function (text, restoreMap) {
+
+    var ungarbled = text;
+
+    for (var placeholder in restoreMap) {
+      var n         = 0,
+          ungarbled = ungarbled.replace(new RegExp(placeholder, 'g'), function (_) {
+            return restoreMap[placeholder]['items'][n++];
+          });
+    }
+
+    return ungarbled;
+
+  }
 
 
   /*
-    Returns object containing array of Handlebars bracket {{...}} elements and garbled text.
-    Occurrences of {{...}} are replaced with the string of this.#PLACEHOLDER
+    Returns garbled text object containing map of placeholders to their corresponding text elements.
 
     @param text: string
     @return {
-      items: Array
+      restoreMap: Array
       garbled: string
     }
   */
@@ -247,11 +297,10 @@ class MarkupTranslator {
 module.exports.MarkupTranslator = MarkupTranslator;
 
 
-async function test() {
-  const markupTranslator = new MarkupTranslator('AIzaSyCh5DceyuecG8bRtKMNuWtDPFEd2ZH3sQM', { excludeDelimiters: [ { start: '{{', end: '}}' }, { start: '<<', end: '>>' } ], includeAttributes: [ 'placeholder' ] });
-  await markupTranslator.translateText("<input placeholder='Password Password {{user.name}}'></input><span>Hello</span>", 'es')
+
+async function test () {
+  var translator = new MarkupTranslator('AIzaSyCh5DceyuecG8bRtKMNuWtDPFEd2ZH3sQM', { includeAttributes: ['placeholder', 'data-message'], excludeDelimiters: [{start: '{{', end: '}}'}] });
+  console.log(await translator.translateFromText(`<div data-message='Hello, {{name}}'></div>`, 'es'));
 }
 
-
-
-test()
+test();

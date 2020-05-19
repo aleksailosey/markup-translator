@@ -74,7 +74,7 @@ The `includeAttributes` field is a list of all attribute names you wish to have 
 For the best results, only include attributes with simple text values rather than ones with inlined styles or scripts.
 
 ### excludeDelimiters
-The `excludeDelimiters` field prevents translation of content between all specified delimiters. A delimiter object must include exactly two fields named `start` and `end` specifying the start and end delimiter, respectively. 
+The `excludeDelimiters` field prevents translation of content between all specified delimiters. A delimiter object must include exactly two fields named `start` and `end` specifying the start and end delimiter, respectively.
 
 Start and end delimiters may not include the following characters: ', ", \`
 
@@ -108,7 +108,7 @@ const options = {
 ...
 ```
 
-Then the `<div></div>` element above would be correctly translated as follows:
+Then the `<div></div>` element above would be correctly translated as follows (respecting both the `includedAttributes` and `excludeDelimiters` rules):
 
 ```html
 <div data-message='Hola, {{name}}'></div>
