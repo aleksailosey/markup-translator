@@ -117,10 +117,13 @@ Then the `<div></div>` element above would be correctly translated as follows (r
 ## Advanced usage
 
 ### MarkupTranslator.translateFromText(text, targetLanguage)
+a
 
 ### MarkupTranslator.translateFromFile(inputFilePath, outputFilePath, targetLanguage)
+b
 
 ### Supported target languages
+c
 
 ## Contributing
 Pull requests are welcome!
