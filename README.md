@@ -35,7 +35,7 @@ As a default, Google's Translate API only translates text between two tags. This
 
 To combat these deficiencies, the `MarkupTranslator` class constructor has an optional `options` argument.
 
-### Optional `options`
+### Optional `#options`
 
 ```javascript
 const options = {
