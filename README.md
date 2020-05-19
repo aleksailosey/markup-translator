@@ -115,11 +115,12 @@ Then the `<div></div>` element above would be correctly translated as follows (r
 ```
 
 ## Advanced usage
+Below are the two ways in which to translate markup given an instance of the MarkupTranslator class named `translator`:
 
-##### `MarkupTranslator.translateFromText(text, targetLanguage)`
+#### `translator.translateFromText(text, targetLanguage)`
 a
 
-##### `MarkupTranslator.translateFromFile(inputFilePath, outputFilePath, targetLanguage)`
+#### `translator.translateFromFile(inputFilePath, outputFilePath, targetLanguage)`
 b
 
 ### Supported target languages
