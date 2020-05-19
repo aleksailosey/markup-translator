@@ -116,6 +116,12 @@ Then the `<div></div>` element above would be correctly translated as follows (r
 
 ## Advanced usage
 
+### MarkupTranslator.translateFromText(text, targetLanguage)
+
+### MarkupTranslator.translateFromFile(inputFilePath, outputFilePath, targetLanguage)
+
+### Supported target languages
+
 ## Contributing
 Pull requests are welcome!
 
