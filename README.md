@@ -30,9 +30,24 @@ test();
 ## Options
 As a default, Google's Translate API only translates text between two tags. This behavior can be especially frustrating and deleterious if you wish to translate certain element attributes (such as the `placeholder` or `title` attributes) or if you are using a template engine like [Handlebars](https://handlebarsjs.com/).
 
-### Illustration of potential issues
+### Example of undesired behavior
+
 
 To combat these deficiencies, the `MarkupTranslator` class constructor has an optional `options` argument.
+
+### Optional `options`
+
+```javascript
+const options = {
+  includeAttributes: ['placeholder', 'title'],
+  excludeDelimiters: [
+    {
+      start: '{{',
+      end: '}}'
+    }
+  ]
+};
+```
 
 ## Contributing
 Pull requests are welcome!
