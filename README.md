@@ -53,6 +53,7 @@ To combat these deficiencies, the `MarkupTranslator` class constructor has an op
 ### Options
 
 ```javascript
+...
 const options = {
   includeAttributes: ['placeholder', 'title'],
   excludeDelimiters: [
@@ -63,6 +64,7 @@ const options = {
   ]
 };
 const translator = new MarkupTranslator('GOOGLE_CLOUD_API_KEY', options);
+...
 ```
 The options argument has two fields: `includeAttributes` and `excludeDelimiters`. You may wish include one, the other, or both.
 
@@ -88,6 +90,28 @@ Excluded delimiters have precedence over included attributes. This makes it poss
 
 ```html
 <div data-message='Hello, {{name}}'></div>
+```
+
+And consider we provide the following options:
+
+```javascript
+...
+const options = {
+  includeAttributes: [ 'data-message' ],
+  excludeAttributes: [
+    {
+      start: '{{',
+      end: '}}'
+    }
+  ]
+};
+...
+```
+
+Then the `<div></div>` element above would be correctly translated as follows:
+
+```html
+<div data-message='Hola, {{name}}'></div>
 ```
 
 ## Advanced usage
