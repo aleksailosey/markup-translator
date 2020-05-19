@@ -112,7 +112,7 @@ const options = {
 ...
 ```
 
-Then the `<div></div>` element above would be correctly translated as follows (respecting both the `includedAttributes` and `excludeDelimiters` rules):
+Then the `<div></div>` element above would be correctly translated as follows (respecting both the `includeAttributes` and `excludeDelimiters` rules):
 
 ```html
 <div data-message='Hola, {{name}}'></div>
