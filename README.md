@@ -9,7 +9,7 @@ npm install markup-translator
 ```
 
 ## Basic Usage
-```javascript
+```nodejs
 const MarkupTranslator = require('markup-translator');
 
 async function test () {
