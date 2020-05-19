@@ -8,8 +8,11 @@ Use [npm](https://npmjs.org) to install markup-translator.
 npm install markup-translator
 ```
 
+## Prerequisites
+
+
 ## Basic Usage
-```nodejs
+```javascript
 const MarkupTranslator = require('markup-translator');
 
 async function test () {
