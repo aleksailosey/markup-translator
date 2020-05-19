@@ -1,7 +1,7 @@
 # markup-translator
 Translate markup with Google's Translate API.
 
-# Installation
+## Installation
 Use [npm](https://npmjs.org) to install markup-translator.
 
 ```bash
@@ -10,7 +10,18 @@ npm install markup-translator
 
 ## Basic Usage
 ```javascript
-const markupTranslator = require('markup-translator');
+const MarkupTranslator = require('markup-translator');
+
+async function test () {
+  var translator = new MarkupTranslator('GOOGLE_CLOUD_API_KEY');
+  var translatedMarkup = await translator.translateFromText('<span>Hello world!</span>');
+  console.log(translatedMarkup);
+}
+
+test();
+
+// Outputs <span>¡Hola Mundo!</span>
+
 ```
 
 ## Contributing
