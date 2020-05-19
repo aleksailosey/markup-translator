@@ -9,7 +9,8 @@
 
 const { Translate } = require('@google-cloud/translate').v2,
       Html5Entities = require('html-entities').Html5Entities,
-      entities      = new Html5Entities();
+      entities      = new Html5Entities(),
+      fs            = require('fs');
 
 class MarkupTranslator {
 
@@ -89,6 +90,50 @@ class MarkupTranslator {
   */
   async translateFromFile (inputFilePath, outputFilePath, targetLanguage) {
 
+    if (typeof inputFilePath === 'undefined') {
+
+      throw new Error('Please provide an input file path.');
+
+    }
+
+    if (typeof inputFilePath.trim() === '') {
+
+      throw new Error('Input file path must be a non-empty string.');
+
+    }
+
+    if (typeof outputFilePath === 'undefined') {
+
+      throw new Error('Please provide an output file path.');
+
+    }
+
+    if (typeof outputFilePath.trim() === '') {
+
+      throw new Error('Output file path must be a non-empty string.');
+
+    }
+
+    if (typeof targetLanguage === 'undefined') {
+
+      throw new Error('Please provide a target language.');
+
+    }
+
+    if (!fs.existsSync(inputFilePath)) {
+
+      throw new Error(`Input file path ${inputFilePath} does not exist.`)
+
+    }
+
+    const fileContents       = fs.readFileSync(inputFilePath.trim(), { encoding: 'utf8' }),
+          translatedContents = await this.translateFromText(fileContents, targetLanguage);
+
+
+    fs.writeFileSync(outputFilePath, translatedContents);
+
+    return true;
+
   }
 
   /*
@@ -96,6 +141,8 @@ class MarkupTranslator {
     @param targetLanguage: string
   */
   async translateFromText (text, targetLanguage) {
+
+    targetLanguage = targetLanguage.trim();
 
     if (typeof text === 'undefined') {
 
@@ -105,7 +152,7 @@ class MarkupTranslator {
 
     if (typeof text !== 'string') {
 
-      throw new Error(`The text value provided (${text}) must be a string`);
+      throw new Error(`The text value provided (${text}) must be a string.`);
 
     }
 
@@ -226,7 +273,7 @@ class MarkupTranslator {
   }
 
   /*
-    Replaces instances of this.#PLACEHOLDER with their respective Handlebars element
+    Replaces instances of placeholder in restoreMap with their respective values
 
     @param text: string
     @param items: array
@@ -293,14 +340,11 @@ class MarkupTranslator {
 
 }
 
-
 module.exports.MarkupTranslator = MarkupTranslator;
-
-
 
 async function test () {
   var translator = new MarkupTranslator('AIzaSyCh5DceyuecG8bRtKMNuWtDPFEd2ZH3sQM', { includeAttributes: ['placeholder', 'data-message'], excludeDelimiters: [{start: '{{', end: '}}'}] });
-  console.log(await translator.translateFromText(`<div data-message='Hello, {{name}}'></div>`, 'es'));
+  await translator.translateFromFile('./front.hbs', 'front_es.hbs', 'es')
 }
 
 test();

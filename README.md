@@ -9,7 +9,11 @@ npm install markup-translator
 ```
 
 ## Prerequisites
+1. Create a Google Cloud project
+2. Enable the Google Translate API
+3. Create an API key
 
+Information on how to achieve these three steps can be found [here](https://cloud.google.com/deployment-manager/docs/step-by-step-guide/installation-and-setup).
 
 ## Basic Usage
 ```javascript
@@ -152,7 +156,7 @@ Below are the two ways in which to translate markup given an instance of the `Ma
 `translateFromText` accepts a string of markup and a target language code. It returns the translated markup.
 
 #### `await translator.translateFromFile(inputFilePath, outputFilePath, targetLanguage)`
-`translateFromFile` accepts an input file path, an output file path, and a target language code. This method accepts markup from `inputFilePath` and ouputs the translated markup to `outputFilePath`.
+`translateFromFile` accepts an input file path, an output file path, and a target language code. This method accepts markup from `inputFilePath` and ouputs the translated markup to `outputFilePath`. Returns `true` upon completing this.
 
 If `inputFilePath` cannot be resolved, a fatal error will be thrown.
 
