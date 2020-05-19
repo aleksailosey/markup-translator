@@ -62,7 +62,14 @@ const options = {
     }
   ]
 };
+const translator = new MarkupTranslator('GOOGLE_CLOUD_API_KEY', options);
 ```
+The options argument has two fields: `includeAttributes` and `excludeDelimiters`. You may wish include one, the other, or both.
+
+### includeAttributes
+The 
+
+### excludeDelimiters
 
 ## Advanced usage
 
