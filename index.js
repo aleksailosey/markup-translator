@@ -3,9 +3,7 @@
   Version: 5/19/2020
   Email: aleksailosey@gmail.com
   License: MIT
-  Disclaimer: My first npm package
 */
-
 
 const { Translate } = require('@google-cloud/translate').v2,
       Html5Entities = require('html-entities').Html5Entities,
@@ -13,6 +11,8 @@ const { Translate } = require('@google-cloud/translate').v2,
       fs            = require('fs');
 
 class MarkupTranslator {
+
+  #SUPPORTED_LANGUAGES = require('./supported.js');
 
   #API_KEY;
   #TRANSLATOR;
@@ -120,6 +120,12 @@ class MarkupTranslator {
 
     }
 
+    if (Object.values(this.#SUPPORTED_LANGUAGES).indexOf(targetLanguage) === -1) {
+
+      throw new Error(`The provided target language (${targetLanguage}) is not supported: The following languages are supported: ${JSON.stringify(this.#SUPPORTED_LANGUAGES)}.`);
+
+    }
+
     if (!fs.existsSync(inputFilePath)) {
 
       throw new Error(`Input file path ${inputFilePath} does not exist.`)
@@ -159,6 +165,12 @@ class MarkupTranslator {
     if (typeof targetLanguage === 'undefined') {
 
       throw new Error('Please provide a target language.');
+
+    }
+
+    if (Object.values(this.#SUPPORTED_LANGUAGES).indexOf(targetLanguage) === -1) {
+
+      throw new Error(`The provided target language (${targetLanguage}) is not supported: The following languages are supported: ${JSON.stringify(this.#SUPPORTED_LANGUAGES)}.`);
 
     }
 
@@ -338,13 +350,14 @@ class MarkupTranslator {
 
   }
 
+
+  /*
+    Outputs supported language map
+  */
+  printSupportedLanguages() {
+    console.log(this.#SUPPORTED_LANGUAGES);
+  }
+
 }
 
-module.exports.MarkupTranslator = MarkupTranslator;
-
-async function test () {
-  var translator = new MarkupTranslator('AIzaSyCh5DceyuecG8bRtKMNuWtDPFEd2ZH3sQM', { includeAttributes: ['placeholder', 'data-message'], excludeDelimiters: [{start: '{{', end: '}}'}] });
-  await translator.translateFromFile('./front.hbs', 'front_es.hbs', 'es')
-}
-
-test();
+module.exports = MarkupTranslator;
